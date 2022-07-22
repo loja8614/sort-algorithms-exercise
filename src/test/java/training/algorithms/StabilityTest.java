@@ -48,10 +48,16 @@ class StudentComparator implements Comparator<Student> {
 
         if (o1.lastName.compareTo(o2.lastName) != 0)
             return o1.lastName.compareTo(o2.lastName);
-        return o1.firstName.compareTo(o2.firstName);
+        if(o1.firstName.compareTo(o2.firstName) !=0)
+            return o1.firstName.compareTo(o2.firstName);
+        else{
+            int validation=0;
+            validation= o1.code<o2.code ? -99999: 1;
+            return validation;
+        }
+
     }
 }
-
 
 public class StabilityTest {
     private Student[] inputArray = {
@@ -124,8 +130,8 @@ public class StabilityTest {
                 new Student("Tammi", "Frank", 4000),
                 new Student("Thomas", "Louann", 800),
                 new Student("Troy", "Taylor", 400),
-                new Student("Wise", "Lynwood", 1000),
                 new Student("Wise", "Lynwood", 200),
+                new Student("Wise", "Lynwood", 1000),
                 new Student("Wise", "Lynwood", 2000),
                 new Student("Wise", "Lynwood", 3000),
                 new Student("Wise", "Lynwood", 4000));
