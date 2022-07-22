@@ -5,62 +5,42 @@ import java.util.Comparator;
 public class QuickSort implements Sorter {
 
     public <T extends Comparable<T>> void sort(T[] array) {
-        quickSort(array, 0, array.length - 1);
+        quickSort(array, 0, array.length - 1,Comparable::compareTo);
     }
 
     public <T> void sort(T[] array, Comparator<T> comparator) {
-        quickSortComparator(array, 0, array.length - 1,comparator);
+        quickSort(array, 0, array.length - 1, comparator);
     }
 
-    private <T extends Comparable<T>> void quickSort(T[] array, int left, int right) {
-        if (left >= right)
+    private <T> void quickSort(T[] array, int lowIndex, int highIndex, Comparator<T> comparator) {
+
+        if (lowIndex >= highIndex) {
             return;
-        int i = left, j = right;
-        if (left != right) {
-            int pivot = left;
-            T aux;
-            while (left!=right) {
-                while (array[right].compareTo(array[pivot]) >= 0 && left < right)
-                    right--;
-                while (array[left].compareTo(array[pivot]) < 0 && left < right)
-                    left++;
-                if (right != left) {
-                    aux = array[right];
-                    array[right] = array[left];
-                    array[left] = aux;
-                }
-                if (left == right) {
-                    quickSort(array, i, left - 1);
-                    quickSort(array, left + 1, j);
-                }
+        }
+        T pivot = array[highIndex];
+
+        int leftPointer = lowIndex;
+        int rightPointer = highIndex;
+
+        while (leftPointer < rightPointer) {
+            while (comparator.compare(array[leftPointer], pivot) <= 0 && leftPointer < rightPointer) {
+                leftPointer++;
             }
-        } else
-            return;
+            while (comparator.compare(array[rightPointer], pivot) >= 0 && leftPointer < rightPointer) {
+                rightPointer--;
+            }
+            swap(array, leftPointer, rightPointer);
+        }
+        swap(array, leftPointer, highIndex);
+
+        quickSort(array, lowIndex, leftPointer - 1, comparator);
+        quickSort(array, leftPointer + 1, highIndex, comparator);
     }
 
-    private  <T> void quickSortComparator(T[] array, int left, int right, Comparator<T> comparator) {
-        if (left >= right)
-            return;
-        int i = left, j = right;
-        if (left != right) {
-            int pivot = left;
-            T aux;
-            while (left!=right) {
-                while (comparator.compare(array[right],array[pivot]) >= 0 && left < right)
-                    right--;
-                while (comparator.compare(array[left],array[pivot]) < 0 && left < right)
-                    left++;
-                if (right != left) {
-                    aux = array[right];
-                    array[right] = array[left];
-                    array[left] = aux;
-                }
-                if (left == right) {
-                    quickSortComparator(array, i, left - 1,comparator);
-                    quickSortComparator(array, left + 1, j,comparator);
-                }
-            }
-        } else
-            return;
+
+    private <T> void swap(T[] array, int index1, int index2) {
+        T aux = array[index1];
+        array[index1] = array[index2];
+        array[index2] = aux;
     }
 }

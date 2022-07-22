@@ -45,6 +45,7 @@ class StudentComparator implements Comparator<Student> {
 
     @Override
     public int compare(Student o1, Student o2) {
+
         if (o1.lastName.compareTo(o2.lastName) != 0)
             return o1.lastName.compareTo(o2.lastName);
         return o1.firstName.compareTo(o2.firstName);
@@ -133,6 +134,6 @@ public class StabilityTest {
 
     static Stream<Sorter> stableSorterProvider() {
         // Test all the algorithms it is expected to fail with BubbleSort and QuickSort
-        return Stream.of(new InsertionSort(), new BubbleSort(), new QuickSort()/*, new MergeSort()*/);
+        return Stream.of(new InsertionSort(), new BubbleSort(), new MergeSort() ,new QuickSort());
     }
 }
